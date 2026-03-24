@@ -1,4 +1,4 @@
-module github.com/RuneRogue/Transaction-Processing-Engine.git
+module github.com/RuneRogue/Transaction-Processing-Engine
 
 go 1.25.5
 
