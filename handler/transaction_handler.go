@@ -16,6 +16,7 @@ func NewTransactionHandler(transactionService *service.TransactionService) *Tran
 	return &TransactionHandler{transactionService: transactionService}
 }
 
+// HandleTransaction handles the POST /api/transaction endpoint
 func (h *TransactionHandler) HandleTransaction(w http.ResponseWriter, r *http.Request) {
 	req := service.TransactionRequest{}
 	err := json.NewDecoder(r.Body).Decode(&req)

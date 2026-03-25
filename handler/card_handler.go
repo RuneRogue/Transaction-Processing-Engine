@@ -29,6 +29,7 @@ func NewCardHandler(cardService *service.CardService) *CardHandler {
 	return &CardHandler{cardService: cardService}
 }
 
+// GetBalance handles the GET /api/card/balance/{cardNumber} endpoint
 func (h *CardHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
 	cardNumber := chi.URLParam(r, "cardNumber")
 
@@ -50,6 +51,7 @@ func (h *CardHandler) GetBalance(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// GetTransactions handles the GET /api/card/transactions/{cardNumber} endpoint
 func (h *CardHandler) GetTransactions(w http.ResponseWriter, r *http.Request) {
 	cardNumber := chi.URLParam(r, "cardNumber")
 	transactions, err := h.cardService.GetTransactions(cardNumber)
