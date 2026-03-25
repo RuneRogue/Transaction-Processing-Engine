@@ -6,7 +6,7 @@ import (
 
 	"github.com/RuneRogue/Transaction-Processing-Engine/model"
 	"github.com/RuneRogue/Transaction-Processing-Engine/service"
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 )
 
 type CardHandler struct {
