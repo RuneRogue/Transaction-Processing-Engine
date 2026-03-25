@@ -50,7 +50,7 @@ func (s *TransactionService) ProcessTransaction(req TransactionRequest) (Transac
 		return TransactionResponse{
 			Status:   model.TransactionStatusFailed,
 			RespCode: "05",
-			Message:  "Card is blocked",
+			Message:  "Card is not active",
 		}, nil
 	}
 
@@ -93,8 +93,9 @@ func (s *TransactionService) ProcessTransaction(req TransactionRequest) (Transac
 
 	default:
 		return TransactionResponse{
-			Status:  model.TransactionStatusFailed,
-			Message: "Invalid transaction type",
+			Status:   model.TransactionStatusFailed,
+			RespCode: "90",
+			Message:  "Invalid transaction type",
 		}, nil
 	}
 
