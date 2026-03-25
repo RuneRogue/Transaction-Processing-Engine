@@ -128,6 +128,51 @@ curl -X POST http://localhost:8080/api/transaction \
 }
 ```
 
+**Expected Invalid Card Response:**
+```json
+{
+  "status": "FAILED",
+  "respCode": "05",
+  "message": "Invalid card"
+}
+```
+
+**Expected Inactive Card Response:**
+```json
+{
+  "status": "FAILED",
+  "respCode": "05",
+  "message": "Card is not active"
+}
+```
+
+**Expected Invalid PIN Response:**
+```json
+{
+  "status": "FAILED",
+  "respCode": "06",
+  "message": "Invalid PIN"
+}
+```
+
+**Expected Invalid Amount Response:**
+```json
+{
+  "status": "FAILED",
+  "respCode": "07",
+  "message": "Invalid amount"
+}
+```
+
+**Expected Invalid Transaction Type Response:**
+```json
+{
+  "status": "FAILED",
+  "respCode": "90",
+  "message": "Invalid transaction type"
+}
+```
+
 ### 2. Get Card Balance
 
 **Request:**
