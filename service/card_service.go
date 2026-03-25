@@ -8,11 +8,12 @@ import (
 )
 
 type CardService struct {
-	cardRepo *repository.CardRepository
+	cardRepo        *repository.CardRepository
+	transactionRepo *repository.TransactionRepository
 }
 
-func NewCardService(cardRepo *repository.CardRepository) *CardService {
-	return &CardService{cardRepo: cardRepo}
+func NewCardService(cardRepo *repository.CardRepository, transactionRepo *repository.TransactionRepository) *CardService {
+	return &CardService{cardRepo: cardRepo, transactionRepo: transactionRepo}
 }
 
 // GetBalance returns the balance of a card.
@@ -23,6 +24,14 @@ func (s *CardService) GetBalance(cardNumber string) (int64, error) {
 		return 0, err
 	}
 	return card.Balance, nil
+}
+
+func (s *CardService) GetTransactions(cardNumber string) ([]model.Transaction, error) {
+	_, err := s.ValidateCard(cardNumber)
+	if err != nil {
+		return nil, err
+	}
+	return s.transactionRepo.GetTransactions(cardNumber), nil
 }
 
 // ValidateCard validates the card and returns the card if it is active.

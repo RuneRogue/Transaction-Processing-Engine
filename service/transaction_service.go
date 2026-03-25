@@ -15,17 +15,17 @@ type TransactionService struct {
 }
 
 type TransactionRequest struct {
-	CardNumber string
-	Pin        string
-	Type       string
-	Amount     int64
+	CardNumber string `json:"cardNumber"`
+	Pin        string `json:"pin"`
+	Type       string `json:"type"`
+	Amount     int64  `json:"amount"`
 }
 
 type TransactionResponse struct {
-	Status   string
-	RespCode string
-	Balance  int64
-	Message  string
+	Status   string `json:"status"`
+	RespCode string `json:"respCode"`
+	Balance  int64  `json:"balance,omitempty"`
+	Message  string `json:"message,omitempty"`
 }
 
 func NewTransactionService(cardRepo *repository.CardRepository, transactionRepo *repository.TransactionRepository) *TransactionService {
