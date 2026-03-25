@@ -15,7 +15,7 @@ type CardHandler struct {
 
 type BalanceResponse struct {
 	Status  string `json:"status"`
-	Balance int64  `json:"balance,omitempty"`
+	Balance int64  `json:"balance"`
 	Message string `json:"message,omitempty"`
 }
 
@@ -69,5 +69,51 @@ func (h *CardHandler) GetTransactions(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(TransactionHistoryResponse{
 		Status:             model.TransactionStatusSuccess,
 		TransactionHistory: transactions,
+	})
+}
+
+type CreateCardResponse struct {
+	Status  string `json:"status"`
+	Message string `json:"message,omitempty"`
+}
+
+// CreateCard handles the POST /api/card endpoint
+func (h *CardHandler) CreateCard(w http.ResponseWriter, r *http.Request) {
+	var req service.CreateCardRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
+	
+	w.Header().Set("Content-Type", "application/json")
+	
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(CreateCardResponse{
+			Status:  model.TransactionStatusFailed,
+			Message: "Invalid request payload",
+		})
+		return
+	}
+
+	if req.CardNumber == "" || req.Pin == "" || req.CardHolder == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(CreateCardResponse{
+			Status:  model.TransactionStatusFailed,
+			Message: "Missing required fields",
+		})
+		return
+	}
+
+	err = h.cardService.CreateCard(req)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(CreateCardResponse{
+			Status:  model.TransactionStatusFailed,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(CreateCardResponse{
+		Status: model.TransactionStatusSuccess,
 	})
 }

@@ -51,6 +51,7 @@ func main() {
 	//Define API routes
 	router.Get("/api/card/balance/{cardNumber}", cardHandler.GetBalance)
 	router.Get("/api/card/transactions/{cardNumber}", cardHandler.GetTransactions)
+	router.Post("/api/card", cardHandler.CreateCard)
 
 	router.Post("/api/transaction", txHandler.HandleTransaction)
 

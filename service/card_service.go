@@ -5,11 +5,19 @@ import (
 
 	"github.com/RuneRogue/Transaction-Processing-Engine/model"
 	"github.com/RuneRogue/Transaction-Processing-Engine/repository"
+	"github.com/RuneRogue/Transaction-Processing-Engine/utils"
 )
 
 type CardService struct {
 	cardRepo        *repository.CardRepository
 	transactionRepo *repository.TransactionRepository
+}
+
+type CreateCardRequest struct {
+	CardNumber     string `json:"cardNumber"`
+	CardHolder     string `json:"cardHolder"`
+	Pin            string `json:"pin"`
+	InitialBalance int64  `json:"initialBalance"`
 }
 
 func NewCardService(cardRepo *repository.CardRepository, transactionRepo *repository.TransactionRepository) *CardService {
@@ -44,4 +52,16 @@ func (s *CardService) ValidateCard(cardNumber string) (*model.Card, error) {
 		return nil, errors.New("card is not active")
 	}
 	return card, nil
+}
+
+// CreateCard creates a new card and saves it to the repository.
+func (s *CardService) CreateCard(req CreateCardRequest) error {
+	card := &model.Card{
+		CardNumber: req.CardNumber,
+		CardHolder: req.CardHolder,
+		PinHash:    utils.Hash(req.Pin),
+		Balance:    req.InitialBalance,
+		Status:     model.CardStatusActive,
+	}
+	return s.cardRepo.CreateCard(card)
 }

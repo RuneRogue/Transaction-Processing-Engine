@@ -21,3 +21,7 @@ func (r *CardRepository) GetCard(cardNumber string) (*model.Card, error) {
 func (r *CardRepository) UpdateCard(card *model.Card) {
 	r.store.UpdateCard(card)
 }
+
+func (r *CardRepository) CreateCard(card *model.Card) error {
+	return r.store.AddCard(card)
+}

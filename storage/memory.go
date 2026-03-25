@@ -51,6 +51,18 @@ func (s *MemoryStore) UpdateCard(card *model.Card) {
 	s.Cards[card.CardNumber] = card
 }
 
+// AddCard adds a new card to the store.
+// Returns an error if the card already exists.
+func (s *MemoryStore) AddCard(card *model.Card) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if _, exists := s.Cards[card.CardNumber]; exists {
+		return errors.New("card already exists")
+	}
+	s.Cards[card.CardNumber] = card
+	return nil
+}
+
 // AddTransaction adds a transaction to the store.
 // We are using Lock here because we are modifying the Transaction.
 func (s *MemoryStore) AddTransaction(tx model.Transaction) {

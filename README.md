@@ -84,7 +84,28 @@ By default, the server starts on port `8080`. You can configure a custom port vi
 
 ## API Examples (cURL)
 
-### 1. Perform a Transaction
+### 1. Create a New Card
+
+**Request:**
+```bash
+curl -X POST http://localhost:8080/api/card \
+     -H "Content-Type: application/json" \
+     -d '{
+           "cardNumber": "1111222233334444",
+           "cardHolder": "Jane Doe",
+           "pin": "0000",
+           "initialBalance": 500
+         }'
+```
+
+**Expected Success Response:**
+```json
+{
+  "status": "SUCCESS"
+}
+```
+
+### 2. Perform a Transaction
 
 **Withdraw Example:**
 ```bash
